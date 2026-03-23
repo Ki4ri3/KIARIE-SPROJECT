@@ -75,7 +75,7 @@ const Signup = () => {
           Create Your Account
         </h1>
         <p className="text-center text-gray-500 mb-6 text-sm sm:text-base">
-          Join Our platFARM and Harvest Big! 🚀
+          <h5>Join Our platFARM and Harvest Big!</h5> 🚀
         </p>
 
         {loading && (
@@ -106,7 +106,7 @@ const Signup = () => {
                 placeholder="First Name"
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
-                className={inputStyle}
+                className='input-ui'
                 required
               />
             </div>
@@ -119,7 +119,7 @@ const Signup = () => {
                 placeholder="Last Name"
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
-                className={inputStyle}
+                className='input-ui'
                 required
               />
             </div> <br />
@@ -132,7 +132,7 @@ const Signup = () => {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className={inputStyle}
+              className='input-ui'
               required
             />
           </div> <br />
@@ -144,7 +144,7 @@ const Signup = () => {
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={inputStyle}
+              className='input-ui'
               requirednpm install lucide-react framer-motion
             />
           </div> <br />
@@ -156,7 +156,7 @@ const Signup = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={inputStyle}
+              className='input-ui'
               required
             />
           </div> <br />
@@ -168,15 +168,15 @@ const Signup = () => {
               placeholder="Phone Number"
               value={tel}
               onChange={(e) => setTel(e.target.value)}
-              className={inputStyle}
+              className="input-ui"
             />
-          </div>
+          </div> <br />
 
           <motion.button
             whileTap={{ scale: 0.97 }}
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2.5 rounded-xl hover:bg-indigo-700 transition duration-300 disabled:opacity-50"
+            className="button-ui form-control"
           >
             {loading ? "Please wait..." : "Sign Up"}
           </motion.button>

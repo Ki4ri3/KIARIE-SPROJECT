@@ -1,117 +1,78 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
-
-  // Define the two hooks for capturing/storing the users input
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Declare the additional hooks
-  const [loading,setLoading] = useState("");
-  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  // Below we have useNavigate hook to redirect the user to another page on successful login
-  const navigate = useNavigate()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-  // Below is the function that will handle the signin action
-  const handlesubmit = async (e) =>{
+    try {
+      const res = await axios.post(
+        "https://keyarie.alwaysdata.net/api/signin",
+        { email, password }
+      );
 
-    // Prevent site from reloading
-    e.preventDefault()
-
-    // Update the loading hoook 
-    setLoading("Kindly wait as we process your request...")
-
-    try{
-      // Create a fornData object that will hold the email and the password
-      const formdata = new FormData()
-
-      // 
-      formdata.append("username", username);
-      formdata.append("email", email);
-      formdata.append("password", password);
-
-      // Interact with axios for the response
-      const response = await axios.post("https://keyarie.alwaysdata.net/api/signin", formdata);
-
-      // Set the loading hook back to default
-      setLoading("");
-
-      // Check whether themuser exists as part of the response from the API
-      if(response.data.user){
-        // If user exists -> details enteres are correct
-        // setSuccess("Successfully Logged In")
-
-        // Trial: storing data in local host
-        localStorage.setItem('users', JSON.stringify(response.data.user));
-
-        // If it is successful -> user to be redirected to another page
-        navigate("/")
-      }
-      else{
-        // If user does not exist -> credentials entered are incorrect.
-        setError("Login failed. Please Try Again!")
-      }
+      localStorage.setItem("token", res.data.token);
+      navigate("/dashboard"); // or wherever you want to redirect
+    } catch (err) {
+      setError(err.response?.data?.message || "Signin failed");
     }
-    catch(error){
-      // Set loading back to default
-      setLoading("")
-
-      // Update the error hook with message
-      setError("Oops! Please try again later")
-
-    }
-  }
-
-
+  };
 
   return (
-    <div className='row justify-content-center mt-4  style="background-image: url(images/welcomepic.jpg);'>
-      <div className="col-md-6 shadow p-4">
-        <h1 className='text-warning'>Sign In</h1>
+    <div style={styles.container}>
+      <div className="card-ui" style={{ maxWidth: "600px", width: "100%", height:"450px" }}>
+        <h2 style={{ textAlign: "center" }}>Sign In</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <h5 className="text-info">{loading}</h5>
-        <h3 className='text-success'>{success}</h3>
-        <h4 className='text-danger'>{error}</h4>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Username"
+            className="input-ui"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          /> <br/>
+          <input
+            type="email"
+            placeholder="Email"
+            className="input-ui"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <form onSubmit={handlesubmit}>
-            <input type="text"
-          placeholder='Enter Your User Name'
-          className='form-control'
-          required 
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}/> <br />
+          <input
+            type="password"
+            placeholder="Password"
+            className="input-ui"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-          <input type="email"
-          placeholder='Enter Email Adress'
-          className='form-control'
-          required 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}/> <br />
-
-          {/* {email} */}
-
-          <input type="password"
-          placeholder='Enter Your Password'
-          className='form-control'
-          required 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}/> <br />
-
-          {/* {password} */}
-
-          <input type="submit"
-          value="Sign In"
-          className='btn btn-success form-control' /> <br />
-          Don't have an account? <Link to={'/signup'}>SignUp</Link>
+          <button className="btn-ui">Sign In</button>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
+
+const styles = {
+  container: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
 
 export default Signin;
