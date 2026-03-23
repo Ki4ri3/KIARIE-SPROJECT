@@ -7,6 +7,7 @@ import Addproducts from './components/Addproducts';
 import Getproducts from './components/Getproducts';
 import Makepayment from './components/Makepayment';
 import Notfound from './components/Notfound';
+import Form from './components/Signup copy';
 
 function App() {
   return (
@@ -15,6 +16,12 @@ function App() {
       <header className="App-header">
         <h2>Welcome To Digital Farm Market</h2>
       </header>
+      <nav>
+        <Link to="/" className='btn btn-primary btn-lg'>Home</Link> 
+        <Link to="/addproducts" className='btn btn-dark btn-lg'>AddProducts</Link>
+        <Link to="/signin" className='btn btn-secondary  btn-lg'>SignIn</Link>
+        <Link to="/signup" className='btn btn-success  btn-lg'>SignUp</Link>
+       </nav>
 
       <Routes>
         <Route path='/signup' element={<Signup/>}/>

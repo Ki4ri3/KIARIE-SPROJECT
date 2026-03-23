@@ -4,11 +4,71 @@ import "../css/Loader.css"; // import the external css
 const Loader = () => {
   return (
     <section className="loader">
-      <div className="slider" style={{ "--i": 0 }}></div>
-      <div className="slider" style={{ "--i": 1 }}></div>
-      <div className="slider" style={{ "--i": 2 }}></div>
-      <div className="slider" style={{ "--i": 3 }}></div>
-      <div className="slider" style={{ "--i": 4 }}></div>
+      <div class="wrapper-grid">
+  <div class="cube">
+    <div class="face face-front">L</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+
+  <div class="cube">
+    <div class="face face-front">O</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+
+  <div class="cube">
+    <div class="face face-front">A</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+
+  <div class="cube">
+    <div class="face face-front">D</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+
+  <div class="cube">
+    <div class="face face-front">I</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+
+  <div class="cube">
+    <div class="face face-front">N</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+
+  <div class="cube">
+    <div class="face face-front">G</div>
+    <div class="face face-back"></div>
+    <div class="face face-right"></div>
+    <div class="face face-left"></div>
+    <div class="face face-top"></div>
+    <div class="face face-bottom"></div>
+  </div>
+</div>
+
     </section>
   );
 };

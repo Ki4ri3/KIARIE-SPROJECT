@@ -48,40 +48,53 @@ const Getproducts = () => {
 
   console.log("These are the products", products)
 
+  const styles = {
+  card: {
+    background: "#fff",
+    padding: "15px",
+    borderRadius: "10px",
+    boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
+    textAlign: "center",
+  },
+  image: {
+    width: "100%",
+    height: "200px",
+    objectFit: "cover",
+    borderRadius: "10px",
+  },
+};
+
 
 
   return (
-    <div className='row'>
-      <h3 className="text-primary">Available Products</h3>
-      {loading && <Loader/>}
-      <h4 className='text-danger'>{error}</h4>
+    <div className="row">
+  {products.map((product) => (
+    <div className="col-md-3 mb-4">
+      <div style={styles.card}>
+        <img
+          src={img_url + product.product_photo}
+          alt=""
+          style={styles.image}
+        />
 
-      {/* Map the products fetched from the API to the user interface */}
+        <h4>{product.product_name}</h4>
+        <p>{product.product_description}</p>
 
-      {products.map((product) => (
-        <div className="col-md-3 justify-content-center mb-3">
-        <div className="card shadow">
-        <img src={img_url + product.product_photo} 
-        alt="productname"
-        className='product_img mt-3' />
+        <h5 style={{ color: "#667eea" }}>
+          KSH {product.product_cost}
+        </h5>
 
-        <div className="card-body">
-
-          <h5 className='text-primary'> {product.product_name} </h5>
-
-          <p className='text-dark'> {product.product_description} </p>
-
-          <h4 className='text-warning'>KSH {product.product_cost} </h4>
-
-          <button className="btn btn-outline-success" onClick={() => navigate("/makepayment", {state : {product}})}>Purchase Now</button>
-        </div>
-        </div>
-
+        <button
+          className="btn-ui"
+          onClick={() => navigate("/makepayment", { state: { product } })}
+        >
+          Buy Now
+        </button>
       </div>
-      ))}
-      
     </div>
-  )
+  ))}
+</div>
+      )
 }
 
 export default Getproducts;

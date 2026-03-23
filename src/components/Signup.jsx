@@ -1,134 +1,202 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { User, Mail, Lock, Phone } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const Signup = () =>{
-    // Initialize the hooks
-    const[username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [tel, setTel] = useState("");
+const Signup = () => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [tel, setTel] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
-    // Define the three states an application will move to
-    const [loading, setLoading] = useState("");
-    const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
-    // Below is a function that will handle the submit action.
-    const handleSubmit = async(e) =>{
-        // Below we prevent our site from reloading
-        e.preventDefault()
+    try {
+      const formdata = new FormData();
+      formdata.append("firstname", firstname);
+      formdata.append("lastname", lastname);
+      formdata.append("username", username);
+      formdata.append("email", email);
+      formdata.append("password", password);
+      formdata.append("tel", tel);
 
-        // Update our loading hook with a message that will be displayed to the users who are trying to register.
-        setLoading("Registration in progress...")
+      const response = await axios.post(
+        "https://keyarie.alwaysdata.net/api/signup",
+        formdata
+      );
 
-        try{
-            // Create a form data object that will enable you to capture the four details enetered on the form
-            const formdata = new FormData();
+      setSuccess(response.data.message || "Account created successfully!");
 
-            // Insert the four details interms of key-value pairs
-            formdata.append("username", username);
-            formdata.append("email", email);
-            formdata.append("password", password);
-            formdata.append("tel", tel);
-
-            // setTimeout(() => {
-            //     setSuccess("");
-            // },1000);
-
-            // By use of axios, we can access the method post
-            const response =await axios.post("https://keyarie.alwaysdata.net/api/signup", formdata)
-
-            // Set back the loading to default
-            setLoading("");
-
-            // Incase all goes well, update the success hook with a message
-            setSuccess(response.data.message)
-
-            // Clear your hooks
-            setUsername("");
-            setEmail("");
-            setPassword("");
-            setTel("");
-        }
-
-        catch(error){
-            // Set the loading back to default
-            setLoading("");
-
-            // Update the error hook with the message given back from the response
-            setError(error.message)
-        }
+      setFirstname("");
+      setLastname("");
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setTel("");
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return(
-        <div className='row justify-content-center mt-4'>
-            <div className="card col-md-6 shadow p-4">
-                <h1 className='text-primary'>SignUp</h1>
-                <h5 className="text-warning">{loading}</h5>
-                <h5 className="text-success">{success}</h5>
+  const inputStyle =
+    "w-full border rounded-xl py-2 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition";
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
 
-                <form onSubmit={handleSubmit}>
-                    <input type="text"
-                    placeholder='Enter Your Username'
-                    className='form-control' 
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required/>
-                    <br />
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 px-4">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md"
+      >
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
+          Create Your Account
+        </h1>
+        <p className="text-center text-gray-500 mb-6 text-sm sm:text-base">
+          Join Our platFARM and Harvest Big! 🚀
+        </p>
 
-                    {/* {username} */}
+        {loading && (
+          <p className="text-center text-indigo-600 mb-3 animate-pulse">
+            Processing...
+          </p>
+        )}
 
-                    <input type="email" 
-                    placeholder='Enter Your Email Address'
-                    className='form-control'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required/>
-                    <br />
+        {success && (
+          <div className="bg-green-100 text-green-700 p-2 rounded mb-3 text-sm text-center">
+            {success}
+          </div>
+        )}
 
-                    {/* {email} */}
+        {error && (
+          <div className="bg-red-100 text-red-700 p-2 rounded mb-3 text-sm text-center">
+            {error}
+          </div>
+        )}
 
-                    <input type="password"
-                    placeholder='Enter Your Password'
-                    className='form-control'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
-                    <br />
-
-                    {/* {password} */}
-
-                    <input type="tel"
-                    placeholder='Enter Your Phone Number' 
-                    className='form-control'
-                    value={tel}
-                    onChange={(e) => setTel(e.target.value)}/>
-                    <br />
-
-                    {/* {tel} */}
-
-                    <input type="submit" value="SignUp" className='btn btn-primary' /> <br /> <br />
-
-                    Already have an account?<Link to={'/signin'}>SingIn</Link>
-
-                </form>
+        <div className='col-md-6 shadow p-4 row justify-content-center mt-4 '>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                className={inputStyle}
+                required
+              />
             </div>
+            <br />
+
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                className={inputStyle}
+                required
+              />
+            </div> <br />
+          </div>
+
+          <div className="relative">
+            <User className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className={inputStyle}
+              required
+            />
+          </div> <br />
+
+          <div className="relative">
+            <Mail className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputStyle}
+              requirednpm install lucide-react framer-motion
+            />
+          </div> <br />
+
+          <div className="relative">
+            <Lock className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={inputStyle}
+              required
+            />
+          </div> <br />
+
+          <div className="relative">
+            <Phone className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              value={tel}
+              onChange={(e) => setTel(e.target.value)}
+              className={inputStyle}
+            />
+          </div>
+
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            type="submit"
+            disabled={loading}
+            className="w-full bg-indigo-600 text-white py-2.5 rounded-xl hover:bg-indigo-700 transition duration-300 disabled:opacity-50"
+          >
+            {loading ? "Please wait..." : "Sign Up"}
+          </motion.button>
+        </form>
         </div>
-    )
-}
+
+
+
+        <p className="text-center text-sm text-gray-600 mt-4">
+          Already have an account?{' '}
+          <Link
+            to="/signin"
+            className="text-indigo-600 font-medium hover:underline"
+          >
+            Sign In
+          </Link>
+        </p>
+      </motion.div>
+    </div>
+  );
+};
 
 export default Signup;
-
-// research on Axios in reactjs
-// axios.get() fetches data.
-// response.data contains the API data.
-// useState stores the data.
-// useEffect runs when the component loads.
-
-// GET – Retrieve data
-// POST – Send data
-// PUT – Update data
-// DELETE – Remove data
-// Axios helps connect the React frontend with the backend API

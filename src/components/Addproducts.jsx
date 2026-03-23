@@ -35,7 +35,7 @@ const Addproducts = () => {
       formdata.append("product_photo", product_photo);
 
       // Interact with axois module to help you use the method post
-      const response = await axios.post("https:/keyarie.alwaysdata.net/api/add_product",formdata);
+      const response = await axios.post("https://keyarie.alwaysdata.net/api/add_product",formdata);
 
       // Set the loading hook back to default
       setLoading(false)
@@ -62,64 +62,65 @@ const Addproducts = () => {
 
     }
   }
+  
+  const styles = {
+  container: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
 
 
   return (
-    <div className='row justify-content-center mt-4'>
-      <div className="col-md-6 p-4 card shadow bg-dark">
-        <h3 className='text-primary'>Welcome To Add Product</h3>
+    <div style={styles.container}>
+  <div className="card-ui" style={{ maxWidth: "500px", width: "100%" }}>
+    <h2 style={{ textAlign: "center" }}>Add Product</h2>
 
-        {/* bind the loading hook */}
-        {loading && <Loader/>}
+    {loading && <p>Uploading...</p>}
+    {success && <p style={{ color: "green" }}>{success}</p>}
+    {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <h3 className='text-success'>{success}</h3>
-        <h4 className='text-danger'>{error}</h4>
+    <form onSubmit={handleSumit}>
+      <input
+        type="text"
+        placeholder="Product Name"
+        className="input-ui"
+        value={product_name}
+        onChange={(e) => setProductName(e.target.value)}
+        required
+      />
 
-        <form onSubmit={handleSumit}>
-          <input type="text"
-          placeholder='Enter the Product Name'
-          className='form-control'
-          required 
-          value={product_name}
-          onChange={(e) => setProductName(e.target.value)} /> 
-          
-          {/* {product_name} */}
-          
-          <br />
+      <input
+        type="text"
+        placeholder="Description"
+        className="input-ui"
+        value={product_description}
+        onChange={(e) => setProductDescription(e.target.value)}
+        required
+      />
 
-          <input type="text" 
-          placeholder='Enter the Product Description'
-          className='form-control'
-          required 
-          value={product_description}
-          onChange={(e) => setProductDescription(e.target.value)}/> <br />
+      <input
+        type="number"
+        placeholder="Price (KSH)"
+        className="input-ui"
+        value={product_cost}
+        onChange={(e) => setProductCost(e.target.value)}
+        required
+      />
 
-          {/* {product_description} */}
+      <input
+        type="file"
+        className="input-ui"
+        onChange={(e) => setProductPhoto(e.target.files[0])}
+        required
+      />
 
-          <input type="number"
-          placeholder='Enter the Price of the Product'
-          className='form-control'
-          required 
-          value={product_cost}
-          onChange={(e) => setProductCost(e.target.value)}/> <br />
-
-          {product_cost}
-
-          <label className='text-primary'>Product Photo</label>
-          <input type="file"
-          className='form-control'
-          required 
-          accept='image/*'
-          onChange={(e) =>setProductPhoto(e.target.files[0])}/> <br />
-
-          <input type="submit"
-          value="Add Product"
-          className='btn btn-outline-success' />
-
-
-        </form>
-      </div>
-    </div>
+      <button className="btn-ui">Add Product</button>
+    </form>
+  </div>
+</div>
   )
 }
 

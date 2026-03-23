@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Signin = () => {
 
   // Define the two hooks for capturing/storing the users input
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,6 +31,7 @@ const Signin = () => {
       const formdata = new FormData()
 
       // 
+      formdata.append("username", username);
       formdata.append("email", email);
       formdata.append("password", password);
 
@@ -68,7 +70,7 @@ const Signin = () => {
 
 
   return (
-    <div className='row justify-content-center mt-4'>
+    <div className='row justify-content-center mt-4  style="background-image: url(images/welcomepic.jpg);'>
       <div className="col-md-6 shadow p-4">
         <h1 className='text-warning'>Sign In</h1>
 
@@ -77,6 +79,13 @@ const Signin = () => {
         <h4 className='text-danger'>{error}</h4>
 
         <form onSubmit={handlesubmit}>
+            <input type="text"
+          placeholder='Enter Your User Name'
+          className='form-control'
+          required 
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}/> <br />
+
           <input type="email"
           placeholder='Enter Email Adress'
           className='form-control'
@@ -96,8 +105,8 @@ const Signin = () => {
           {/* {password} */}
 
           <input type="submit"
-          value="SignIn"
-          className='btn btn-success' />
+          value="Sign In"
+          className='btn btn-success form-control' /> <br />
           Don't have an account? <Link to={'/signup'}>SignUp</Link>
         </form>
       </div>

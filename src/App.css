@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+body {
+  margin: 0;
+  font-family: 'Times New Roman', Times, serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* Cards */
+.card-ui {
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Inputs */
+.input-ui {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.input-ui:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 5px rgba(102,126,234,0.5);
+}
+
+/* Buttons */
+.btn-ui {
+  background: #667eea;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-ui:hover {
+  background: #5a67d8;
+}
